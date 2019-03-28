@@ -25,11 +25,11 @@ Bài tập thực hành về CakePHP - Quản lý thư viện - GiangDV - 201904
 	
 	
 ### Danh sách thể loại sách	
-  Chỉ thủ thư và admin có quyền thực hiện
+	Chỉ thủ thư và admin có quyền thực hiện
 ### Thêm thể loại sách
-  Chỉ thủ thư và admin có quyền thực hiện
+	Chỉ thủ thư và admin có quyền thực hiện
 ### Sửa thể loại sách
-  Chỉ thủ thư và admin có quyền thực hiện
+	Chỉ thủ thư và admin có quyền thực hiện
 ### Xóa thể loại sách	
 	Chỉ thủ thư và admin có quyền thực hiện
 	Trường hợp thể loại sách đang có sách thì không được xóa
