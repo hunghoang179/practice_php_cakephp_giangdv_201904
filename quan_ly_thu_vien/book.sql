@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2019 at 12:18 PM
+-- Generation Time: Mar 29, 2019 at 12:31 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -140,11 +140,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_name`, `password`, `mail`, `address`, `phone`, `role`, `create_user`, `update_user`, `create_time`, `update_time`, `is_deleted`) VALUES
-(1, 'giang', '827ccb0eea8a706c4c34a16891f84e7b', 'giang@gmail.com', 'nghia hung - nam dinh', '0387409300', 1, '', '', '2019-03-28 06:39:27', '0000-00-00 00:00:00', 0),
-(2, 'giap', '12345', 'giap@gmail.com', 'viet tri phu tho', '0912345678', 2, '', '', '2019-03-28 03:18:04', '0000-00-00 00:00:00', 1),
-(3, 'dinh', '12345', 'dinhcoi@gmail.com', 'phu tho', '0912345678', 0, '', '', '2019-03-28 04:13:50', '0000-00-00 00:00:00', 1),
-(36, '2222222', '827ccb0eea8a706c4c34a16891f84e7b', '2222@gmail.com', 'nghia hung nam dinh', '0384511666', 0, '', '', '2019-03-28 10:38:38', '0000-00-00 00:00:00', 0),
-(37, '333', '827ccb0eea8a706c4c34a16891f84e7b', '333@gmail.com', 'nghia hung nam dinh', '0384511666', 0, '', '', '2019-03-28 10:46:07', '0000-00-00 00:00:00', 0);
+(36, '2222222', '123', '2222@gmail.com', 'nghia hung nam dinh', '0384511666', 0, '', '', '2019-03-29 08:58:15', '0000-00-00 00:00:00', 0),
+(37, '333', '827ccb0eea8a706c4c34a16891f84e7b', '333@gmail.com', 'nghia hung nam dinh', '0384511666', 0, '', '', '2019-03-28 10:46:07', '0000-00-00 00:00:00', 0),
+(38, 'admin', '123', 'admin@gmail.com', 'nghia hung nam dinh', '0912345678', 0, '', '', '2019-03-29 09:21:03', '0000-00-00 00:00:00', 0);
 
 --
 -- Indexes for dumped tables
@@ -200,7 +198,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
