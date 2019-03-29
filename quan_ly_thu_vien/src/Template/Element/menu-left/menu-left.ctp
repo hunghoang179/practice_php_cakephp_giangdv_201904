@@ -4,5 +4,6 @@
         <li><?= $this->Html->link(__('Danh sách sách'), ['controller'=>'books','action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('Danh sách user'), ['controller'=>'users','action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('Danh sách user mượn sách'), ['borrow_oders'=>'categories','action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Trang cá nhân'), ['controller'=>'users','action' => 'profile']) ?></li>
     </ul>
 </nav>

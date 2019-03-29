@@ -41,15 +41,20 @@ class AppController extends Controller
     {
         // Existing code
         parent::initialize();
-        $this->loadComponent('Flash');
+        
         $this->loadComponent('Auth', [
             'authenticate' => [
                 'Form' => [
                     'fields' => [
                         'username' => 'user_name',
                         'password' => 'password'
-                    ]
+                    ],
+//                    'finder' => 'auth',
+                    'passwordHasher' => [
+                    'className' => 'Legacy',
                 ]
+                ]
+                
             ],
             'loginAction' => [
                 'controller' => 'Users',
@@ -61,7 +66,7 @@ class AppController extends Controller
 
         // Allow the display action so our PagesController
         // continues to work. Also enable the read only actions.
-
+        $this->loadComponent('Flash');
         $this->Auth->allow(['logout']);
     }
 }

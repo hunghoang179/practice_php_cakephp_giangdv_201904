@@ -49,11 +49,12 @@ class User extends Entity
      *
      * @var array
      */
-    protected $_hidden = [
-        'password'
-    ];
+//    protected $_hidden = [
+//        'password'
+//    ];
     protected function _setPassword($value)
     {
+        
         if (strlen($value)) {
               return md5($value);
         }

@@ -2,6 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Validation\Validator;
+use Cake\Mailer\Email;
+use Cake\Utility\Security;
 
 /**
  * Users Controller
@@ -16,6 +19,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Allow users to register and logout.
         $this->Auth->allow('register');
+        Security::setHash('md5');
     }
     /**
      * Index method
@@ -28,6 +32,9 @@ class UsersController extends AppController
             if($user){
                 $this->Auth->setUser($user);
                 $this->redirect(['controller'=>'books','action'=>'index']);
+            }
+            else{
+                echo 'test';
             }
 
         }
@@ -43,6 +50,11 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
+    }
+    public  function profile($id = null){
+        $user = $this->Auth->user();
+        //pr($user);die;
+        $this->set('user',$user);
     }
 
     /**
@@ -71,20 +83,25 @@ class UsersController extends AppController
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
+                if ($this->Users->save($user)) {
+                    
                 //$this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'login']);
-            }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                }
+                else{
+                  $this->set('errors', $user->getErrors());
+                }
+            //$this->Flash->error(__('The user could not be saved. Please, try again.'));
+            
+            
         }
         $this->set(compact('user'));
     }
     
     public function add()
     {
-        $user = $this->Users->newEntity(['validate' => false]);
-        $validationError = $validation->errors();
+        $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
