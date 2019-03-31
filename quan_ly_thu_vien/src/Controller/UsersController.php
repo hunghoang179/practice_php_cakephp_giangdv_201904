@@ -21,7 +21,7 @@ class UsersController extends AppController
         $this->Auth->allow('register');
         Security::setHash('md5');
     }
-    /**
+        /**
      * Index method
      *
      * @return \Cake\Http\Response|void
