@@ -18,7 +18,7 @@ class UsersController extends AppController
     public function beforeFilter( $event) {
         parent::beforeFilter($event);
         // Allow users to register and logout.
-        $this->Auth->allow('register');
+        $this->Auth->allow('register','editUser');
         Security::setHash('md5');
     }
         /**
@@ -29,7 +29,10 @@ class UsersController extends AppController
     public function login(){
         if($this->request->is('post')){
             $user = $this->Auth->identify();
+            
+            //pr($user); die;
             if($user){
+                $user = $this->Users->get($user['id']);
                 $this->Auth->setUser($user);
                 $this->redirect(['controller'=>'books','action'=>'index']);
             }
@@ -54,6 +57,43 @@ class UsersController extends AppController
     public  function profile($id = null){
         $user = $this->Auth->user();
         //pr($user);die;
+        $this->set('user',$user);
+    }
+    public function editUser(){
+        $user = $this->Auth->user();
+        //pr($user); die;
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $id = $user['id'];
+            $input = $this->request->getData();
+            $user = $this->Users->get($id);
+            //dd($input);
+            if(isset($input['btn_update_user'])){
+                //pr($_POST); die;
+                $user = $this->Users->patchEntity($user, $input);
+                if ($this->Users->save($user)) {
+                    $this->Auth->setUser($user);
+                    $this->Flash->success(__('Cập nhật thành cong.'));
+
+                    return $this->redirect(['action' => 'profile']);
+                }
+                $this->Flash->error(__('Thất bại, thử lại'));  
+            }  
+            else
+            {
+            $pass = $this->request->getData();
+            $user = $this->Users->patchEntity($user, $pass, [
+                'validate' => 'OnlyCheck'
+            ]);
+
+            if ($this->Users->save($user)) {
+                $this->Auth->setUser($user);
+                $this->Flash->success(__('Cập nhật thành cong.'));
+
+                return $this->redirect(['action' => 'profile']);
+            }
+            $this->Flash->error(__('Thất bại, thử lại')); 
+            }          
+        }
         $this->set('user',$user);
     }
 

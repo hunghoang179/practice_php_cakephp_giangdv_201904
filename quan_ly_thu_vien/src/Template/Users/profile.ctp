@@ -28,6 +28,12 @@
             <td>level</td>
             <td><?php echo $user['role']; ?></td>
         </tr>
+        <tr>
+            <td></td>
+            <td><?php echo $this->Html->link('Sửa thông tin',['controller'=>'users','action'=>'editUser'])?></td>
+        </tr>
     </table>
+    <table>
         
+    </table>
 </div>

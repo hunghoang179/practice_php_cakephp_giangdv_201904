@@ -66,18 +66,18 @@ class UsersTable extends Table
             ->requirePresence('mail', 'create')
             ->allowEmptyString('mail', false)
             ->email('mail', false, 'không đúng định dạng e mail');
-//
-//        $validator
-//            ->scalar('address')
-//            ->maxLength('address', 255)
-//            ->requirePresence('address', 'create')
-//            ->allowEmptyString('address', false);
-//
+
+        $validator
+            ->scalar('address')
+            ->maxLength('address', 255)
+            ->requirePresence('address', 'create')
+            ->allowEmptyString('address', false,'Địa chỉ không để trống');
+
         $validator
             ->scalar('phone')
             ->maxLength('phone', 12)
             ->requirePresence('phone', 'create')
-            ->allowEmptyString('phone', false)
+            ->allowEmptyString('phone', false,'Điện thoại không để trống')
             ->integer('phone','nhập số');
 //
 //        $validator
@@ -114,6 +114,18 @@ class UsersTable extends Table
 
         return $validator;
     }
+//    public function validationUpdate(Validator $validator){
+//        $validator = $this->validationDefault($validator);
+//        $validator->allowEmptyString('address', false,'Địa chỉ không để trống');
+//        return $validator;
+//    }
+    public function validationOnlyCheck(Validator $validator) {
+        $validator = $this->validationDefault($validator);
+        //$validator->remove('password');
+        $validator->allowEmptyString('password', false,'trường bắt buộc nhập');
+        $validator->allowEmptyString('re-password', false,'trường bắt buộc nhập');
+        return $validator;
+    }
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['user_name']));
@@ -121,6 +133,7 @@ class UsersTable extends Table
 
         return $rules;
     }
+    
 //    public function findAuth(\Cake\ORM\Query $query, array $options)
 //    {
 //        $query
