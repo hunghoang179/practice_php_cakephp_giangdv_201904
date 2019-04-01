@@ -24,8 +24,8 @@
     <fieldset>
         <legend><?= __('Sửa mật khẩu') ?></legend>
         <?php
-            echo $this->Form->control('password', ['value'=>'']);
-            echo $this->Form->control('re-password');
+            echo $this->Form->input('password', ['value'=>'']);
+            echo $this->Form->input('password_match', ['type'=>'password']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Cập nhật mật khẩu'),['name'=>'btn_update_pass']) ?>

@@ -59,6 +59,8 @@ class UsersTable extends Table
             ->allowEmptyString('password', false)
             ->maxLength('password',20,'Mật khẩu nhập tối đa 20 kí tự')
             ->minLengthBytes('password',5,'Mật khẩu tối thiểu 5 ký tự');
+        $validator
+            ->sameAs('password_match','password','mật khẩu chưa khớp');
 
         $validator
             ->scalar('mail')
