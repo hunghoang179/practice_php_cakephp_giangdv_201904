@@ -29,9 +29,8 @@ class UsersController extends AppController
     public function login(){
         if($this->request->is('post')){
             $user = $this->Auth->identify();
-            
-            //pr($user); die;
-            if($user){
+            //pr($user['is_deleted']); die;
+            if($user && $user['is_deleted'] == 0){
                 $user = $this->Users->get($user['id']);
                 $this->Auth->setUser($user);
                 $this->redirect(['controller'=>'books','action'=>'index']);
@@ -51,12 +50,28 @@ class UsersController extends AppController
     public function index()
     {
         $users = $this->paginate($this->Users);
+        
 
         $this->set(compact('users'));
     }
     public  function profile($id = null){
-        $user = $this->Auth->user();
-        //pr($user);die;
+        $u_id = $this->Auth->user('id');
+        $user = $this->Users->find()->where(['Users.id' => $u_id])->select([
+            'id',
+            'user_name',
+            'password',
+            'mail',
+            'address',
+            'phone',
+            'level'=> 'r.role_name'
+        ])->join([
+            'r'=>[
+                'table' => 'Role',
+                'alias' => 'r',
+                'type' => 'LEFT',
+                'conditions' => 'Users.role_id = r.id'
+            ]
+        ])->first();
         $this->set('user',$user);
     }
     public function editUser(){
@@ -95,6 +110,14 @@ class UsersController extends AppController
             }          
         }
         $this->set('user',$user);
+    }
+    public function listUser(){
+//        $user = $this->Auth->user();
+//        pr($user); die;
+        if($this->Auth->user('role_id') == 2 || $this->Auth->user('role_id') == 3){
+                $users = $this->paginate($this->Users);
+                $this->set(compact('users'));
+            }
     }
 
     /**
@@ -141,17 +164,17 @@ class UsersController extends AppController
     
     public function add()
     {
-        $user = $this->Users->newEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                //$this->Flash->success(__('The user has been saved.'));
+           $user = $this->Users->newEntity();
+            if ($this->request->is('post')) {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                if ($this->Users->save($user)) {
+                    //$this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
-        }
-        $this->set(compact('user'));
+            $this->set(compact('user')); 
     }
 
     /**
@@ -163,19 +186,34 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => []
+        $user = $this->Users->get($id);
+        $_user = $this->Users->find()->select([
+            'id',
+            'role_id',
+            'level'=>'Users.user_name'
+        ])->join([
+            'r'=>[
+                'table' => 'Role',
+                'alias' => 'r',
+                'type' => 'LEFT',
+                'conditions' => 'Users.role_id = r.id'
+            ]
         ]);
+        $option = [];
+        foreach($_user as $r){
+            $option[$r->role_id] = $r->level;
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success(__('Cập nhật thành công'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'listUser']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('Thất bại, xin thử lại'));
         }
-        $this->set(compact('user'));
+        //pr($option); die;
+        $this->set(compact('user','option'));
     }
 
     /**

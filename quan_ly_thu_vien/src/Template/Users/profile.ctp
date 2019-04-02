@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td>level</td>
-            <td><?php echo $user['role']; ?></td>
+            <td><?php echo $user['level']; ?></td>
         </tr>
         <tr>
             <td></td>

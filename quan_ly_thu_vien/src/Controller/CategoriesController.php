@@ -46,17 +46,23 @@ class CategoriesController extends AppController
      */
     public function add()
     {
-        $category = $this->Categories->newEntity();
-        if ($this->request->is('post')) {
-            $category = $this->Categories->patchEntity($category, $this->request->getData());
-            if ($this->Categories->save($category)) {
-                $this->Flash->success(__('The category has been saved.'));
+        //dd($this->Auth->user('role_id'));
+        if($this->Auth->user('role_id') == 3 || $this->Auth->user('role_id') == 2){
+            $category = $this->Categories->newEntity();
+            if ($this->request->is('post')) {
+                $category = $this->Categories->patchEntity($category, $this->request->getData());
+                if ($this->Categories->save($category)) {
+                    $this->Flash->success(__('The category has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The category could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The category could not be saved. Please, try again.'));
+            $this->set(compact('category'));
+        }else{
+            $this->redirect(['action' => 'index']);
         }
-        $this->set(compact('category'));
+        
     }
 
     /**
@@ -68,19 +74,25 @@ class CategoriesController extends AppController
      */
     public function edit($id = null)
     {
-        $category = $this->Categories->get($id, [
+        if($this->Auth->user('role_id') == 3 || $this->Auth->user('role_id') == 2){
+           $category = $this->Categories->get($id, [
             'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $category = $this->Categories->patchEntity($category, $this->request->getData());
-            if ($this->Categories->save($category)) {
-                $this->Flash->success(__('The category has been saved.'));
+            ]);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $category = $this->Categories->patchEntity($category, $this->request->getData());
+                if ($this->Categories->save($category)) {
+                    $this->Flash->success(__('The category has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The category could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The category could not be saved. Please, try again.'));
+            $this->set(compact('category')); 
         }
-        $this->set(compact('category'));
+        else{
+            $this->redirect(['action' => 'index']);
+        }
+        
     }
 
     /**
@@ -92,14 +104,17 @@ class CategoriesController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $category = $this->Categories->get($id);
-        if ($this->Categories->delete($category)) {
-            $this->Flash->success(__('The category has been deleted.'));
-        } else {
-            $this->Flash->error(__('The category could not be deleted. Please, try again.'));
-        }
+        if($this->Auth->user('role_id') == 3 || $this->Auth->user('role_id') == 2){
+            $this->request->allowMethod(['post', 'delete']);
+            $category = $this->Categories->get($id);
+            if ($this->Categories->delete($category)) {
+                $this->Flash->success(__('The category has been deleted.'));
+            } else {
+                $this->Flash->error(__('The category could not be deleted. Please, try again.'));
+            }
 
-        return $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'index']);
+        }
+        
     }
 }

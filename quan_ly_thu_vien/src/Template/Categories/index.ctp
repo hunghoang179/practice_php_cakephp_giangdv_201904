@@ -7,6 +7,9 @@
 <?= $this->element('menu-left/menu-left');?>
 <div class="categories index large-9 medium-8 columns content">
     <h3><?= __('Categories') ?></h3>
+    <?php if($this->Session->read('Auth.User.role_id') == 3 || $this->Session->read('Auth.User.role_id') == 2){ ?>
+    <?= $this->Html->link('Thêm thể loại sách',['controller'=>'users','action'=>'add'],['class'=>'btn'])?>
+    <?php } ?>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
@@ -18,7 +21,15 @@
                 <th scope="col"><?= $this->Paginator->sort('create_time') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('update_time') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('is_deleted') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col" class="actions">
+                    <?php
+                        if($this->Session->read('Auth.User.role_id') == 2 || $this->Session->read('Auth.User.role_id') == 3){
+                    ?>
+        <?= __('Actions') ?>
+                    <?php
+                        }
+                    ?>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -33,9 +44,16 @@
                 <td><?= h($category->update_time) ?></td>
                 <td><?= $this->Number->format($category->is_deleted) ?></td>
                 <td class="actions">
+                    <?php
+                        if($this->Session->read('Auth.User.role_id') == 2 || $this->Session->read('Auth.User.role_id') == 3){
+                    ?>
                     <?= $this->Html->link(__('View'), ['action' => 'view', $category->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $category->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete # {0}?', $category->id)]) ?>
+                    <?= $this->Form->postLink(__('Delete'), [
+                        'action' => 'delete', $category->id],
+                            ['confirm' => __('Are you sure you want to delete # {0}?',
+                                    $category->id)]) ?>
+                    <?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>
