@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2019 at 12:31 PM
+-- Generation Time: Apr 02, 2019 at 12:49 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -50,7 +50,7 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`id`, `id_category`, `title`, `content_short`, `stock`, `out_stock`, `author`, `year`, `create_user`, `update_user`, `create_time`, `update_time`, `is_deleted`) VALUES
 (1, 1, 'Van hoc', 'sach giao duc pho thong', 10, 0, 'ngo tran ai', 2019, '', '', '2019-03-28 03:24:48', '0000-00-00 00:00:00', 1),
-(2, 2, 'anh hung xa dieu', 'truyen kiem hiep', 19, 0, 'Kim dung', 2019, '', '', '2019-03-28 03:24:48', '0000-00-00 00:00:00', 1),
+(2, 2, 'anh hung', 'truyen kiem hiep', 19, 0, 'Kim dung', 2019, '11', '11', '2019-03-28 03:24:00', '2019-04-01 04:19:00', 1),
 (3, 3, 'ky thuat trong cay', 'ky thuat canh tac dat ruong', 18, 0, 'lan dung', 2019, '', '', '2019-03-28 03:24:48', '0000-00-00 00:00:00', 1),
 (4, 4, 'marketing online', 'kinh doanh online', 0, 12, 'van lam', 2019, '', '', '2019-03-28 03:24:48', '0000-00-00 00:00:00', 1),
 (5, 1, 'Van hoc', 'sach giao duc pho thong', 10, 1, 'ngo tran ai', 2019, '', '', '2019-03-28 03:25:26', '0000-00-00 00:00:00', 1),
@@ -112,7 +112,29 @@ INSERT INTO `categories` (`id`, `id_parent`, `name`, `create_user`, `update_user
 (1, 0, 'giao duc', '', '', '2019-03-28 03:20:51', '0000-00-00 00:00:00', 1),
 (2, 0, 'tieu thuyet', '', '', '2019-03-28 03:20:51', '0000-00-00 00:00:00', 1),
 (3, 0, 'chan nuoi', '', '', '2019-03-28 03:20:51', '0000-00-00 00:00:00', 0),
-(4, 0, 'kinh doanh', '', '', '2019-03-28 03:20:51', '0000-00-00 00:00:00', 1);
+(4, 0, 'kinh doanh', '', '', '2019-03-28 03:20:51', '0000-00-00 00:00:00', 1),
+(5, 7, 'truyen tranh', '11', '11', '2019-04-02 10:01:00', '2024-11-30 00:00:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role`
+--
+
+CREATE TABLE `role` (
+  `id` bigint(19) NOT NULL,
+  `role_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `role` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`id`, `role_name`, `role`) VALUES
+(1, 'Thành viên', 0),
+(2, 'Thủ thư', 1),
+(3, 'Admin', 2);
 
 -- --------------------------------------------------------
 
@@ -127,7 +149,7 @@ CREATE TABLE `users` (
   `mail` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
-  `role` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
   `create_user` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `update_user` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -139,10 +161,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_name`, `password`, `mail`, `address`, `phone`, `role`, `create_user`, `update_user`, `create_time`, `update_time`, `is_deleted`) VALUES
-(36, '2222222', '123', '2222@gmail.com', 'nghia hung nam dinh', '0384511666', 0, '', '', '2019-03-29 08:58:15', '0000-00-00 00:00:00', 0),
-(37, '333', '827ccb0eea8a706c4c34a16891f84e7b', '333@gmail.com', 'nghia hung nam dinh', '0384511666', 0, '', '', '2019-03-28 10:46:07', '0000-00-00 00:00:00', 0),
-(38, 'admin', '123', 'admin@gmail.com', 'nghia hung nam dinh', '0912345678', 0, '', '', '2019-03-29 09:21:03', '0000-00-00 00:00:00', 0);
+INSERT INTO `users` (`id`, `user_name`, `password`, `mail`, `address`, `phone`, `role_id`, `create_user`, `update_user`, `create_time`, `update_time`, `is_deleted`) VALUES
+(36, 'user', '827ccb0eea8a706c4c34a16891f84e7b', '222222@gmail.com', 'nghia hung', '12345678', 1, '', '', '2019-04-02 09:20:00', '2019-04-02 06:02:00', 0),
+(37, 'admin', '827ccb0eea8a706c4c34a16891f84e7b', 'giang@gmail.com', 'ha noi', '12345123123', 3, '', '', '2019-04-02 09:20:00', '2019-04-01 08:10:00', 0),
+(38, 'librian', '827ccb0eea8a706c4c34a16891f84e7b', 'librian@gmail.com', 'nam dinh', '0912345', 2, '', '', '2019-04-02 09:24:19', '2019-04-02 06:04:00', 0);
 
 --
 -- Indexes for dumped tables
@@ -164,6 +186,12 @@ ALTER TABLE `borrow_orders`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -192,13 +220,19 @@ ALTER TABLE `borrow_orders`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
