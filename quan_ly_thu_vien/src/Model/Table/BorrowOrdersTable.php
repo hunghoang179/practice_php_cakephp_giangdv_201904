@@ -54,15 +54,15 @@ class BorrowOrdersTable extends Table
             ->requirePresence('id_book', 'create')
             ->allowEmptyString('id_book', false);
 
-        $validator
-            ->dateTime('borrow_date')
-            ->requirePresence('borrow_date', 'create')
-            ->allowEmptyDateTime('borrow_date', false);
+        // $validator
+        //     ->dateTime('borrow_date')
+        //     ->requirePresence('borrow_date', 'create')
+        //     ->allowEmptyDateTime('borrow_date', false);
 
-        $validator
-            ->dateTime('return_date')
-            ->requirePresence('return_date', 'create')
-            ->allowEmptyDateTime('return_date', false);
+        // $validator
+        //     ->dateTime('return_date')
+        //     ->requirePresence('return_date', 'create')
+        //     ->allowEmptyDateTime('return_date', false);
 
         $validator
             ->scalar('note')
@@ -87,15 +87,15 @@ class BorrowOrdersTable extends Table
             ->requirePresence('update_user', 'create')
             ->allowEmptyString('update_user', false);
 
-        $validator
-            ->dateTime('create_time')
-            ->requirePresence('create_time', 'create')
-            ->allowEmptyDateTime('create_time', false);
+        // $validator
+        //     ->dateTime('create_time')
+        //     ->requirePresence('create_time', 'create')
+        //     ->allowEmptyDateTime('create_time', false);
 
-        $validator
-            ->dateTime('update_time')
-            ->requirePresence('update_time', 'create')
-            ->allowEmptyDateTime('update_time', false);
+        // $validator
+        //     ->dateTime('update_time')
+        //     ->requirePresence('update_time', 'create')
+        //     ->allowEmptyDateTime('update_time', false);
 
         $validator
             ->requirePresence('is_deleted', 'create')

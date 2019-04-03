@@ -12,7 +12,6 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('password') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('mail') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('address') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
@@ -30,7 +29,6 @@
             <tr>
                 <td><?= $this->Number->format($user->id) ?></td>
                 <td><?= h($user->user_name) ?></td>
-                <td><?= h($user->password) ?></td>
                 <td><?= h($user->mail) ?></td>
                 <td><?= h($user->address) ?></td>
                 <td><?= h($user->phone) ?></td>

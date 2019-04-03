@@ -20,6 +20,36 @@ class BorrowOrdersController extends AppController
     public function index()
     {
         $borrowOrders = $this->paginate($this->BorrowOrders);
+        $borrowOrders = $this->BorrowOrders->find()->select([
+            'id',
+            'id_user',
+            'id_book',
+            'borrow_date',
+            'return_date',
+            'note',
+            'status',
+            'create_user',
+            'update_user',
+            'create_time',
+            'update_time',
+            'name'=>'u.user_name',
+            'book_name'=>'b.title'
+        ])->join([
+            'u'=>[
+                'table'=>'Users',
+                'alias'=>'u',
+                'type'=>'LEFT',
+                'conditions'=>'u.id = BorrowOrders.id_user'
+            ]
+        ])->join([
+            'b'=>[
+                'table'=>'Books',
+                'alias'=>'b',
+                'type'=>'LEFT',
+                'conditions'=>'b.id = BorrowOrders.id_book'
+            ]
+        ]);
+        //pr($borrowOrders); die;
 
         $this->set(compact('borrowOrders'));
     }
@@ -51,11 +81,11 @@ class BorrowOrdersController extends AppController
         if ($this->request->is('post')) {
             $borrowOrder = $this->BorrowOrders->patchEntity($borrowOrder, $this->request->getData());
             if ($this->BorrowOrders->save($borrowOrder)) {
-                $this->Flash->success(__('The borrow order has been saved.'));
+                $this->Flash->success(__('Thêm mới thành công.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The borrow order could not be saved. Please, try again.'));
+            $this->Flash->error(__('Thất bại, xin thử lại.'));
         }
         $this->set(compact('borrowOrder'));
     }
@@ -75,11 +105,11 @@ class BorrowOrdersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $borrowOrder = $this->BorrowOrders->patchEntity($borrowOrder, $this->request->getData());
             if ($this->BorrowOrders->save($borrowOrder)) {
-                $this->Flash->success(__('The borrow order has been saved.'));
+                $this->Flash->success(__('Lưu thành công'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The borrow order could not be saved. Please, try again.'));
+            $this->Flash->error(__('Thất bại hãy thử lại.'));
         }
         $this->set(compact('borrowOrder'));
     }
@@ -96,9 +126,9 @@ class BorrowOrdersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $borrowOrder = $this->BorrowOrders->get($id);
         if ($this->BorrowOrders->delete($borrowOrder)) {
-            $this->Flash->success(__('The borrow order has been deleted.'));
+            $this->Flash->success(__('đã xóa thành công.'));
         } else {
-            $this->Flash->error(__('The borrow order could not be deleted. Please, try again.'));
+            $this->Flash->error(__('thất bại kiểm tra lại.'));
         }
 
         return $this->redirect(['action' => 'index']);

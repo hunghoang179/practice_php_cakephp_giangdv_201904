@@ -6,37 +6,47 @@
 ?>
 <?= $this->element('menu-left/menu-left');?>
 <div class="borrowOrders index large-9 medium-8 columns content">
-    <h3><?= __('Borrow Orders') ?></h3>
+    <h3><?= __('Danh sách đơn mượn sách') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('id_user') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('id_book') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('borrow_date') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('return_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id_user','Người mượn') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('borrow_date','Ngày mượn') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('return_date', 'Ngày trả') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('note') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('create_user') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('update_user') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('status', 'Trạng thái') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('create_time') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('update_time') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('is_deleted') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('is_deleted','Tắt/mở') ?></th>
+                <th scope="col" class="actions"><?= __('Thao tác') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($borrowOrders as $borrowOrder): ?>
             <tr>
                 <td><?= $this->Number->format($borrowOrder->id) ?></td>
-                <td><?= $this->Number->format($borrowOrder->id_user) ?></td>
-                <td><?= $this->Number->format($borrowOrder->id_book) ?></td>
+                <td><?= $borrowOrder->name ?></td>
                 <td><?= h($borrowOrder->borrow_date) ?></td>
                 <td><?= h($borrowOrder->return_date) ?></td>
                 <td><?= h($borrowOrder->note) ?></td>
-                <td><?= $this->Number->format($borrowOrder->status) ?></td>
-                <td><?= h($borrowOrder->create_user) ?></td>
-                <td><?= h($borrowOrder->update_user) ?></td>
+                <td>
+                    <?php if($borrowOrder->status == 0){
+                        echo "Pendding";
+                    }elseif ($borrowOrder->status == 1) {
+                        echo "Approve";
+                    }elseif ($borrowOrder->status == 2) {
+                        echo "Cancer";
+                    }elseif ($borrowOrder->status == 3) {
+                        echo "Return";
+                    }elseif ($borrowOrder->status == 4) {
+                        echo "Missing";
+                    }
+
+                    
+                     ?>
+                        
+                    </td>
                 <td><?= h($borrowOrder->create_time) ?></td>
                 <td><?= h($borrowOrder->update_time) ?></td>
                 <td><?= $this->Number->format($borrowOrder->is_deleted) ?></td>

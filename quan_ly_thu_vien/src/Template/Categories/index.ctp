@@ -8,24 +8,24 @@
 <div class="categories index large-9 medium-8 columns content">
     <h3><?= __('Categories') ?></h3>
     <?php if($this->Session->read('Auth.User.role_id') == 3 || $this->Session->read('Auth.User.role_id') == 2){ ?>
-    <?= $this->Html->link('Thêm thể loại sách',['controller'=>'users','action'=>'add'],['class'=>'btn'])?>
+    <?= $this->Html->link('Thêm thể loại sách',['controller'=>'Categories','action'=>'add'],['class'=>'btn'])?>
     <?php } ?>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('id_parent') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('create_user') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('update_user') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('create_time') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('update_time') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('is_deleted') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name', 'Tên thể loại') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('create_user','Người tạo') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('update_user','Người cập nhật') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('create_time','Ngày tạo') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('update_time')?></th>
+                <th scope="col"><?= $this->Paginator->sort('is_deleted','Trạng thái') ?></th>
                 <th scope="col" class="actions">
                     <?php
                         if($this->Session->read('Auth.User.role_id') == 2 || $this->Session->read('Auth.User.role_id') == 3){
                     ?>
-        <?= __('Actions') ?>
+        <?= __('Thao tac')?>
                     <?php
                         }
                     ?>
@@ -33,16 +33,25 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($categories as $category): ?>
+            <?php foreach ($categories as $category): 
+                //pr($category->create_user);
+                ?>
             <tr>
                 <td><?= $this->Number->format($category->id) ?></td>
                 <td><?= $this->Number->format($category->id_parent) ?></td>
-                <td><?= h($category->name) ?></td>
-                <td><?= h($category->create_user) ?></td>
-                <td><?= h($category->update_user) ?></td>
-                <td><?= h($category->create_time) ?></td>
-                <td><?= h($category->update_time) ?></td>
-                <td><?= $this->Number->format($category->is_deleted) ?></td>
+                <td><?= $category->name ?> || <?= $category->count ?> Quyển</td>
+                <td><?= $category->create_user ?></td>
+                <td><?= $category->update_user ?></td>
+                <td><?= $category->create_time ?></td>
+                <td><?= $category->update_time ?></td>
+                <td><?php
+                    if($category->is_deleted == 0){
+                        echo 'Mở';
+                    }else{
+                        echo 'Tắt';
+                    }
+                    ?>
+                </td>
                 <td class="actions">
                     <?php
                         if($this->Session->read('Auth.User.role_id') == 2 || $this->Session->read('Auth.User.role_id') == 3){

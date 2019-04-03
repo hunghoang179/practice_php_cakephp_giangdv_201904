@@ -13,14 +13,14 @@
             echo $this->Form->control('id_category');
             echo $this->Form->control('title');
             echo $this->Form->control('content_short');
-            echo $this->Form->control('stock');
+            echo $this->Form->control('quantity');
             echo $this->Form->control('out_stock');
             echo $this->Form->control('author');
             echo $this->Form->control('year');
             echo $this->Form->control('create_user');
             echo $this->Form->control('update_user');
-            echo $this->Form->control('create_time');
-            echo $this->Form->control('update_time');
+            echo $this->Form->input('create_time',['class'=>'datepicker','type'=>'text']);
+            echo $this->Form->input('update_time',['class'=>'datepicker','type'=>'text']);
             echo $this->Form->control('is_deleted');
         ?>
     </fieldset>

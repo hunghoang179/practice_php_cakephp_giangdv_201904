@@ -35,7 +35,7 @@ class Book extends Entity
         'id_category' => true,
         'title' => true,
         'content_short' => true,
-        'stock' => true,
+        'quantity' => true,
         'out_stock' => true,
         'author' => true,
         'year' => true,

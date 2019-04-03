@@ -62,9 +62,9 @@ class BooksTable extends Table
             ->allowEmptyString('content_short', false);
 
         $validator
-            ->integer('stock')
-            ->requirePresence('stock', 'create')
-            ->allowEmptyString('stock', false);
+            ->integer('quantity')
+            ->requirePresence('quantity', 'create')
+            ->allowEmptyString('quantity', false);
 
         $validator
             ->integer('out_stock')
@@ -94,15 +94,15 @@ class BooksTable extends Table
             ->requirePresence('update_user', 'create')
             ->allowEmptyString('update_user', false);
 
-        $validator
-            ->dateTime('create_time')
-            ->requirePresence('create_time', 'create')
-            ->allowEmptyDateTime('create_time', false);
+        // $validator
+        //     ->dateTime('create_time')
+        //     ->requirePresence('create_time', 'create')
+        //     ->allowEmptyDateTime('create_time', false);
 
-        $validator
-            ->dateTime('update_time')
-            ->requirePresence('update_time', 'create')
-            ->allowEmptyDateTime('update_time', false);
+        // $validator
+        //     ->dateTime('update_time')
+        //     ->requirePresence('update_time', 'create')
+        //     ->allowEmptyDateTime('update_time', false);
 
         $validator
             ->requirePresence('is_deleted', 'create')

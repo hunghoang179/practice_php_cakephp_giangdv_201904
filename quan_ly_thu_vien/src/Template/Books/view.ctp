@@ -7,14 +7,21 @@
 <?= $this->element('menu-left/menu-left');?>
 <div class="books view large-9 medium-8 columns content">
     <h3><?= h($book->title) ?></h3>
+    <?= $this->Form->create() ?>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Title') ?></th>
-            <td><?= h($book->title) ?></td>
+            <td>
+                <?= h($book->title) ?>
+                <?=  $this->Form->hidden('title', ['value'=>$book->id]); ?>
+            </td>
         </tr>
         <tr>
             <th scope="row"><?= __('Author') ?></th>
-            <td><?= h($book->author) ?></td>
+            <td>
+                <?= h($book->author) ?>
+                 <?=  $this->Form->hidden('author', ['value'=>$book->author]); ?>   
+            </td>
         </tr>
         <tr>
             <th scope="row"><?= __('Create User') ?></th>
@@ -57,6 +64,8 @@
             <td><?= h($book->update_time) ?></td>
         </tr>
     </table>
+    <?= $this->Form->button(__('Mượn sách','book_order')) ?>
+    <?= $this->Form->end() ?> 
     <div class="row">
         <h4><?= __('Content Short') ?></h4>
         <?= $this->Text->autoParagraph(h($book->content_short)); ?>

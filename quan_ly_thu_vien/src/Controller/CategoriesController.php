@@ -19,6 +19,23 @@ class CategoriesController extends AppController
     public function index()
     {
         $categories = $this->paginate($this->Categories);
+        $categories = $this->Categories->find()->select([
+            'Categories.id',
+            'Categories.name',
+            'Categories.create_user',
+            'update_user',
+            'create_time',
+            'update_time',
+            'count' => 'count(*)'
+        ])->join([
+            'b'=>[
+                'table'=>'Books',
+                'alias'=>'b',
+                'type'=>'LEFT',
+                'conditions'=>'b.id_category = Categories.id'
+            ]
+        ])->group(['Categories.id'])->all();
+        //pr($categories); die;
 
         $this->set(compact('categories'));
     }

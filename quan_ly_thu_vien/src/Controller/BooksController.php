@@ -19,6 +19,7 @@ class BooksController extends AppController
     public function index()
     {
         $books = $this->paginate($this->Books);
+        
 
         $this->set(compact('books'));
     }
@@ -32,10 +33,29 @@ class BooksController extends AppController
      */
     public function view($id = null)
     {
+
+        if ($this->request->is('post')) {
+              pr($this->request->getData());
+          }  
         $book = $this->Books->get($id, [
             'contain' => []
         ]);
-
+        $book = $this->Books->find()->select([
+            'id',
+            'id_book',
+            'id_user',
+            'quantity',
+            'username'=>'u.user_name',
+            'title'=>'Books.title'
+        ])->join([
+            'u'=>[
+                'table'=>'Users',
+                'alias'=>'u',
+                'type'=>'LEFT',
+                'conditions'=>'u.id = Books.id_user'
+            ]
+        ]);
+        //pr($book); die;
         $this->set('book', $book);
     }
 
@@ -58,6 +78,7 @@ class BooksController extends AppController
         }
         $this->set(compact('book'));
     }
+
 
     /**
      * Edit method
@@ -101,5 +122,8 @@ class BooksController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    public function borrowBook(){
+        
     }
 }
