@@ -34,29 +34,80 @@ class BooksController extends AppController
     public function view($id = null)
     {
 
-        if ($this->request->is('post')) {
-              pr($this->request->getData());
-          }  
-        $book = $this->Books->get($id, [
-            'contain' => []
-        ]);
-        $book = $this->Books->find()->select([
+        $this->loadModel('BorrowOrders');
+        $borrowOrders = $this->BorrowOrders->find()->select([
             'id',
-            'id_book',
             'id_user',
-            'quantity',
-            'username'=>'u.user_name',
-            'title'=>'Books.title'
+            'id_book',
+            'borrow_date',
+            'return_date',
+            'note',
+            'status',
+            'create_user',
+            'update_user',
+            'create_time',
+            'update_time',
+            'name'=>'u.user_name',
+            'book_name'=>'b.title'
         ])->join([
             'u'=>[
                 'table'=>'Users',
                 'alias'=>'u',
                 'type'=>'LEFT',
-                'conditions'=>'u.id = Books.id_user'
+                'conditions'=>'u.id = BorrowOrders.id_user'
             ]
-        ]);
-        //pr($book); die;
-        $this->set('book', $book);
+        ])->join([
+            'b'=>[
+                'table'=>'Books',
+                'alias'=>'b',
+                'type'=>'LEFT',
+                'conditions'=>'b.id = BorrowOrders.id_book'
+            ]
+        ])->all();
+        //insert BookOrder
+        $this->loadModel('BookOrder');
+        $user = $this->Auth->user('user_name');
+        $order = $this->BookOrder->newEntity();
+
+        if ($this->request->is('post')) {
+            $a_oder = $this->request->getData();
+
+            $a_oder['user_oder'] = $user;
+
+            $_order = $this->BookOrder->patchEntity($order, $a_oder);
+            //pr($_order);die;
+            if ($this->BookOrder->save($_order)) {
+                $order = $this->BorrowOrders->newEntity();
+                if ($this->request->is('post')) {
+                    $a_oder = $this->request->getData();
+
+                    $_order = $this->BorrowOrders->patchEntity($order, $a_oder);
+                    //pr($_order);die;
+                    if ($this->BorrowOrders->save($_order)) {
+                        $this->Flash->success(__('Yêu cầu của bạn đã được gửi, chờ duyệt y/c'));
+
+                        return $this->redirect(['action' => 'index']);
+                    }
+                    else
+                    {
+                        echo "Lỗi";
+                    }
+                }
+                    $this->Flash->success(__('Yêu cầu của bạn đã được gửi, chờ duyệt y/c'));
+
+                    return $this->redirect(['action' => 'index']);
+                    }
+                else
+                {
+                    echo "Lỗi";
+                }
+            }
+            //insert BorrowOrders
+            
+
+            $book = $this->Books->get($id);
+            // pr($book); die;
+            $this->set(compact('book','borrowOrders'));
     }
 
     /**
@@ -70,11 +121,11 @@ class BooksController extends AppController
         if ($this->request->is('post')) {
             $book = $this->Books->patchEntity($book, $this->request->getData());
             if ($this->Books->save($book)) {
-                $this->Flash->success(__('The book has been saved.'));
+                $this->Flash->success(__('Cập nhật thành công.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The book could not be saved. Please, try again.'));
+            $this->Flash->error(__('Thất bại xin thủ lại.'));
         }
         $this->set(compact('book'));
     }
@@ -95,11 +146,11 @@ class BooksController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $book = $this->Books->patchEntity($book, $this->request->getData());
             if ($this->Books->save($book)) {
-                $this->Flash->success(__('The book has been saved.'));
+                $this->Flash->success(__('Cập nhật thành công.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The book could not be saved. Please, try again.'));
+            $this->Flash->error(__('Thất bại, xin thử lại.'));
         }
         $this->set(compact('book'));
     }

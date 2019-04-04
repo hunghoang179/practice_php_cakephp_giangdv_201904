@@ -31,7 +31,7 @@ class BookOrderTable extends Table
         parent::initialize($config);
 
         $this->setTable('book_order');
-        $this->setDisplayField('id');
+        $this->setDisplayField('title');
         $this->setPrimaryKey('id');
     }
 
@@ -46,18 +46,28 @@ class BookOrderTable extends Table
         $validator
             ->allowEmptyString('id', 'create');
 
-        $validator
-            ->requirePresence('id_book', 'create')
-            ->allowEmptyString('id_book', false);
+        // $validator
+        //     ->scalar('author')
+        //     ->maxLength('author', 100)
+        //     ->requirePresence('author', 'create')
+        //     ->allowEmptyString('author', false);
 
-        $validator
-            ->requirePresence('id_user', 'create')
-            ->allowEmptyString('id_user', false);
+        // $validator
+        //     ->scalar('user_oder')
+        //     ->maxLength('user_oder', 50)
+        //     ->requirePresence('user_oder', 'create')
+        //     ->allowEmptyString('user_oder', false);
 
-        $validator
-            ->integer('quantity')
-            ->requirePresence('quantity', 'create')
-            ->allowEmptyString('quantity', false);
+        // $validator
+        //     ->integer('quantity')
+        //     ->requirePresence('quantity', 'create')
+        //     ->allowEmptyString('quantity', false);
+
+        // $validator
+        //     ->scalar('title')
+        //     ->maxLength('title', 100)
+        //     ->requirePresence('title', 'create')
+        //     ->allowEmptyString('title', false);
 
         return $validator;
     }

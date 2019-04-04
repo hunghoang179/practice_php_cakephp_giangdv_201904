@@ -6,7 +6,7 @@
 ?>
 <?= $this->element('menu-left/menu-left');?>
 <div class="borrowOrders index large-9 medium-8 columns content">
-    <h3><?= __('Danh sách đơn mượn sách') ?></h3>
+    <h3><?= __('Danh sách user mượn sách') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>

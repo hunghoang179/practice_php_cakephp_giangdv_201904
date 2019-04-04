@@ -6,21 +6,32 @@
 ?>
 <?= $this->element('menu-left/menu-left');?>
 <div class="books view large-9 medium-8 columns content">
-    <h3><?= h($book->title) ?></h3>
+    <h3><?= h($book->title) ;
+        //pr($borrowOrders->all()); die;
+    ?></h3>
     <?= $this->Form->create() ?>
+    <?php
+        foreach ($borrowOrders as  $Orders) {
+            //pr($Orders);die;
+
+           echo $this->Form->hidden('title', ['value'=>$Orders->create_user]);
+        }
+    ?>
+    
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Title') ?></th>
             <td>
                 <?= h($book->title) ?>
-                <?=  $this->Form->hidden('title', ['value'=>$book->id]); ?>
+                <?=  $this->Form->hidden('title', ['value'=>$book->title]); ?>
+                
             </td>
         </tr>
         <tr>
             <th scope="row"><?= __('Author') ?></th>
             <td>
                 <?= h($book->author) ?>
-                 <?=  $this->Form->hidden('author', ['value'=>$book->author]); ?>   
+                <?=  $this->Form->hidden('author', ['value'=>$book->author]); ?>   
             </td>
         </tr>
         <tr>
@@ -40,8 +51,11 @@
             <td><?= $this->Number->format($book->id_category) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Stock') ?></th>
-            <td><?= $this->Number->format($book->stock) ?></td>
+            <th scope="row"><?= __('quantity') ?></th>
+            <td>
+                <?= $this->Number->format($book->quantity) ?>
+                <?=  $this->Form->hidden('quantity', ['value'=>$book->quantity]); ?>
+            </td>
         </tr>
         <tr>
             <th scope="row"><?= __('Out Stock') ?></th>

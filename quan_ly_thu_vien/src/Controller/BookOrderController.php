@@ -48,24 +48,11 @@ class BookOrderController extends AppController
      */
     public function view($id = null)
     {
-        $bookOrder = $this->BookOrder->get($id, [
-            'contain' => []
-        ]);
-        $bookOrder = $this->BookOrder->find()->select([
-            'id',
-            'id_book',
-            'id_user',
-            'quantity',
-            'username'=>'u.user_name',
-            'title'
-        ])->join([
-            'u'=>[
-                'table'=>'Users',
-                'alias'=>'u',
-                'type'=>'LEFT',
-                'conditions'=>'u.id = BookOrder.id_user'
-            ]
-        ]);
+        if ($this->request->is('post')) {
+            pr($this->request->getData());
+        }
+        $bookOrder = $this->BookOrder->get($id);
+        
         $this->set('bookOrder', $bookOrder);
     }
 

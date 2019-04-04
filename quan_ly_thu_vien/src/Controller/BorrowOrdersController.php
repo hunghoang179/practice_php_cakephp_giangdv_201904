@@ -63,11 +63,28 @@ class BorrowOrdersController extends AppController
      */
     public function view($id = null)
     {
-        $borrowOrder = $this->BorrowOrders->get($id, [
-            'contain' => []
-        ]);
+        $this->loadModel('BookOrder');
+        $id_user = $this->Auth->user('id');
+        // pr($id_user); die;
+        $Order_detail = $this->BookOrder
+        ->find()
+        ->where([
+            $id => $id_user
+        ])
+        ->select([
+            'author',
+            'user_oder',
+            'quantity',
+            'title',
+            'is_deleted',
+            'id_user'
+        ])->all();
 
-        $this->set('borrowOrder', $borrowOrder);
+        //pr($Order_detail); die;
+
+        $borrowOrder = $this->BorrowOrders->get($id);
+
+        $this->set(compact('borrowOrder','Order_detail'));
     }
 
     /**

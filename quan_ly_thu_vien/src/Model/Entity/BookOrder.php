@@ -7,9 +7,10 @@ use Cake\ORM\Entity;
  * BookOrder Entity
  *
  * @property int $id
- * @property int $id_book
- * @property int $id_user
+ * @property string $author
+ * @property string $user_oder
  * @property int $quantity
+ * @property string $title
  */
 class BookOrder extends Entity
 {
@@ -23,8 +24,9 @@ class BookOrder extends Entity
      * @var array
      */
     protected $_accessible = [
-        'id_book' => true,
-        'id_user' => true,
-        'quantity' => true
+        'author' => true,
+        'user_oder' => true,
+        'quantity' => true,
+        'title' => true
     ];
 }
